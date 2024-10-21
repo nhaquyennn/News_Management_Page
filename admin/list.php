@@ -1,3 +1,45 @@
+<?php 
+require_once "connect.php";
+require_once '../libs/Helper.class.php';
+
+// Kiểm tra và thêm điều kiện tìm kiếm
+$searchValue = isset($_GET['search']) ? trim($_GET['search']) : '';
+$query = "SELECT `id`, `link`, `status`, `ordering` FROM rss";
+if ($searchValue != '') {
+    $query .= " WHERE `link` LIKE '%$searchValue%'"; // Thêm khoảng trắng trước 'WHERE'
+}
+
+// Truy xuất dữ liệu sau khi câu truy vấn đã được cập nhật
+$items = $database->listRecord($query);
+
+// In ra dữ liệu để kiểm tra
+echo '<pre style="color:red">';
+print_r($items);
+echo '</pre>';
+
+// Hiển thị các kết quả
+$xhtml = '';
+foreach ($items as $item) {
+    $id       = $item['id'];
+    $link     = $item['link'];
+    $status   = Helper::showItemStatus($id, $item['status']);
+    $ordering = $item['ordering'];
+
+    $xhtml .= '
+    <tr>
+        <td>' . $id . '</td>
+        <td>' . $link . '</td>
+        <td>' . $status . '</td>
+        <td>' . $ordering . '</td>
+        <td>
+            <a href="edit.php?id=' . $id . '" class="btn btn-sm btn-warning">Edit</a>
+            <a href="delete.php?id=' . $id . '" class="btn btn-sm btn-danger btn-delete">Delete</a>
+        </td>
+    </tr>
+    ';
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +69,7 @@
                 <form action="" method="get">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="search" placeholder="Enter search keyword...."
-                            value="">
+                            value="<?php echo $searchValue?>">
                         <div class="input-group-append">
                             <button type="submit"
                                 class="btn btn-md btn-outline-primary m-0 px-3 py-2 z-depth-0 waves-effect"
@@ -57,30 +99,7 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-                            <td>1</td>
-                            <td>https://vnexpress.net/rss/the-thao.rss</td>
-                            <td><a href="change-status.php?id=1&status=active" class="btn btn-sm btn-success"><i
-                                        class="fas fa-check"></i></a></td>
-                            <td>1</td>
-                            <td>
-                                <a href="form.php?id=1" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="delete.php?id=1" class="btn btn-sm btn-danger btn-delete">Delete</a>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>https://vnexpress.net/rss/the-gioi.rss</td>
-                            <td><a href="change-status.php?id=3&status=inactive" class="btn btn-sm btn-danger"><i
-                                        class="fas fa-minus"></i></a></td>
-                            <td>2</td>
-                            <td>
-                                <a href="form.php?id=3" class="btn btn-sm btn-warning">Edit</a>
-                                <a href="delete.php?id=3" class="btn btn-sm btn-danger btn-delete">Delete</a>
-                            </td>
-                        </tr>
+                        <?php echo $xhtml?>
                     </tbody>
                 </table>
             </div>

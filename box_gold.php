@@ -18,28 +18,27 @@ $goldList = array_column($xmlArr['DGPlist']['Row'], '@attributes');
 
 // Bắt đầu hiển thị bảng HTML với dữ liệu động
 echo '<h3 class="mb-1">Giá vàng</h3>
-    <div class="card card-body" id="box-gold">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th><b>Loại vàng</b></th>
-                    <th><b>Mua vào</b></th>
-                    <th><b>Bán ra</b></th>
-                </tr>
-            </thead>
-            <tbody>';
+        <div class="card card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th><b>Loại vàng</b></th>
+                        <th><b>Mua vào</b></th>
+                        <th><b>Bán ra</b></th>
+                    </tr>
+                </thead>
+                <tbody>';
+                    // Vòng lặp qua danh sách vàng để hiển thị dữ liệu động
+                    foreach ($goldList as $gold) {
+                        echo '<tr>';
+                        echo '<td>' . (isset($gold['Name']) ? $gold['Name'] : 'N/A') . '</td>'; // Loại vàng
+                        echo '<td>' . (isset($gold['Buy']) ? $gold['Buy'] : 'N/A') . '</td>';   // Giá mua vào
+                        echo '<td>' . (isset($gold['Sell']) ? $gold['Sell'] : 'N/A') . '</td>'; // Giá bán ra
+                        echo '</tr>';
+                    }
 
-// Vòng lặp qua danh sách vàng để hiển thị dữ liệu động
-foreach ($goldList as $gold) {
-    echo '<tr>';
-    echo '<td>' . (isset($gold['Name']) ? $gold['Name'] : 'N/A') . '</td>'; // Loại vàng
-    echo '<td>' . (isset($gold['Buy']) ? $gold['Buy'] : 'N/A') . '</td>';   // Giá mua vào
-    echo '<td>' . (isset($gold['Sell']) ? $gold['Sell'] : 'N/A') . '</td>'; // Giá bán ra
-    echo '</tr>';
-}
-
-echo '</tbody>
-        </table>
-    </div>';
+echo '          </tbody>
+            </table>
+        </div>';
 ?>
 

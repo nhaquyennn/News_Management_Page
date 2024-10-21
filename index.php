@@ -1,3 +1,4 @@
+<?php require_once "connect.php"?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 
@@ -39,12 +40,18 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <div class="box mt-4">
-                                    <?php require_once "box_gold.php" ?>
+
+                                <div class="box mt-4" id="box_gold">
+                                    <div class="text-center">
+                                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                                    </div>
                                 </div>
-                                <div class="box mt-4">
-                                    <?php require_once "box_coin.php" ?>
+                                <div class="box mt-4" id="box_coin">
+                                    <div class="text-center">
+                                        <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status"></div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
